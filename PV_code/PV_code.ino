@@ -14,8 +14,8 @@ float F_on[30];
 File off_file;
 File on_file;
 
+const int transpin = 7;
 const int ledPin = 8;    
-int ledState = LOW;
 
 const int buttonPin = 2;
 int buttonState = 0;
@@ -57,7 +57,8 @@ void setup()
   SD.begin(CS_pin);  
   if (SD.exists("off_file.txt") || SD.exists("on_file.txt"))
   {
-    SD.remove("*.txt");        //TODO: CHECK IF THIS IS WORKING
+    SD.remove("off_file.txt");
+    SD.remove("on_file.txt");
   };
   
 }
@@ -66,11 +67,11 @@ void loop()
 {
   set = set + 1;
   
-  if (set = 1)
+  if (set == 1)
   {
       off_file = SD.open("off_file.txt", FILE_WRITE);
   }
-  else if (set = 2)
+  else if (set == 2)
   {
       on_file = SD.open("on_file.txt", FILE_WRITE);
   };
@@ -113,27 +114,34 @@ void loop()
           lcd.clear();
           lcd.setCursor(0, 0);
           lcd.print("Restart Arduino");
-          delay(100000000);
+          while(1);
   }
   
-    if (set = 1)
+  if (set == 1)
   {
       off_file.close();
   }
-  else if (set = 2)
+  else if (set == 2)
   {
       on_file.close();
   };
   
-  if (set = 1)
+  if (set == 1)
   {
       lcd.clear();
       lcd.setCursor(0, 0);
-      lcd.print("Start the fan");
-      digitalWrite(ledPin, HIGH);
-      delay(10000);
+      lcd.print("Starting the fan");
+      lcd.setCursor(0, 1);
+      lcd.print("Please wait...");
+      digitalWrite(ledPin, HIGH);      
+      digitalWrite(transpin, HIGH);
+      delay(3000);
       digitalWrite(ledPin, LOW);
   };
+  if (set ==  2)
+  {
+      digitalWrite(transpin, LOW);  
+  }
   
   lcd.clear();
   lcd.setCursor(0, 0);
