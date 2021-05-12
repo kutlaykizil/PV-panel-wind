@@ -15,7 +15,6 @@ File off_file;
 File on_file;
 
 const int transpin = 7;
-const int ledPin = 8;    
 
 const int buttonPin = 2;
 int buttonState = 0;
@@ -34,7 +33,6 @@ void setup()
   lcd.setCursor(0, 0);
   lcd.print("Push to start");
   
-  pinMode(ledPin, OUTPUT);
   pinMode(buttonPin, INPUT); 
   buttonState = digitalRead(buttonPin);
   
@@ -79,9 +77,9 @@ void loop()
   switch (set)
   {
       case 1:
-        for (int i = 0; i <= 30; i++)
+        for (int i = 0; i <= 100; i++)
           {
-            delay(1000);
+            delay(200);
             VDiv_Value = (analogRead(VoltageDiv)); // Since PV panel's max output is 6V this is expected to measure 3V@max
             PV_Volt = 2*((VDiv_Value*5)/1023.0);
             PV_miliWatt = 1000*(pow(PV_Volt, 2)/2000.0);
@@ -95,9 +93,9 @@ void loop()
       break;
       
       case 2:
-        for (byte i = 0; i <= 30; i++)
+        for (byte i = 0; i <= 100; i++)
           {
-            delay(1000);
+            delay(200);
             VDiv_Value = (analogRead(VoltageDiv)); // Since PV panel's max output is 6V this is expected to measure 3V@max
             PV_Volt = 2*((VDiv_Value*5)/1023.0);
             PV_miliWatt = 1000*(pow(PV_Volt, 2)/2000.0);
@@ -133,10 +131,8 @@ void loop()
       lcd.print("Starting the fan");
       lcd.setCursor(0, 1);
       lcd.print("Please wait...");
-      digitalWrite(ledPin, HIGH);      
       digitalWrite(transpin, HIGH);
       delay(3000);
-      digitalWrite(ledPin, LOW);
   };
   if (set ==  2)
   {
